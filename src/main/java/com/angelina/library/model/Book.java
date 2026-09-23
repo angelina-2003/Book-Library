@@ -17,6 +17,8 @@ public class Book {
     private String author;
     private int year;
 
+    private Double supplierCost;
+
     public Book() {}
 
     public Book(String title, String author, int year) {
@@ -33,4 +35,6 @@ public class Book {
     public void setAuthor(String author) { this.author = author; }
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
+    public Double getSupplierCost() { return supplierCost; }
+    public void setSupplierCost(Double supplierCost) { this.supplierCost = supplierCost; }
 }
