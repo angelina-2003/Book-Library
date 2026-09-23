@@ -15,6 +15,7 @@ public class Book {
 
     private String title;
     private String author;
+    private String authors; // comma-separated list, e.g. "Terry Pratchett,Neil Gaiman". Remove `author` once all rows are migrated.
     private int year;
 
     private Double supplierCost;
@@ -37,4 +38,6 @@ public class Book {
     public void setYear(int year) { this.year = year; }
     public Double getSupplierCost() { return supplierCost; }
     public void setSupplierCost(Double supplierCost) { this.supplierCost = supplierCost; }
+    public String getAuthors() { return authors; }
+    public void setAuthors(String authors) { this.authors = authors; }
 }

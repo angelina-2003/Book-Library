@@ -1,16 +1,15 @@
 package com.angelina.library.controller;
 
 import com.angelina.library.dto.BookDTO;
-
-import com.angelina.library.model.Book;
 import com.angelina.library.service.BookService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
-// Every method just hands over the task to the service.
-
-@CrossOrigin(origins = "http://localhost:3002")
+@CrossOrigin(origins = "http://localhost:3003")
 @RestController
 public class BookController {
 
@@ -31,9 +30,32 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public BookDTO create(@RequestBody BookDTO book) {
-        return service.create(book);
+    public ResponseEntity<BookDTO> create(@RequestBody BookDTO book) {
+        book.normaliseAuthors();
+        BookDTO created = service.create(book);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.id)
+                .toUri();
+        return ResponseEntity.created(location).body(created);
     }
 
+    @PutMapping("/books/{id}")
+    public BookDTO update(@PathVariable Long id, @RequestBody BookDTO book) {
+        book.normaliseAuthors();
+        return service.update(id, book);
+    }
 
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/books")
+    public ResponseEntity<Void> deleteAll() {
+        service.deleteAll();
+        return ResponseEntity.noContent().build();
+    }
 }
